@@ -1,16 +1,20 @@
 
 from pydantic import BaseModel
-from datetime import datetime
 
-# ThreadBase：共通部分（title）
-class ThreadBase(BaseModel):
-    title: str
+# 共通部分（content, parent_post_id）
+class PostBase(BaseModel):
+    content: str
+    parent_post_id: int | None = None
 
-# ThreadCreate(ThreadBaseを継承)：新規作成時に使う（まだ id は無い）
-class ThreadCreate(ThreadBase):
+# 新規作成用（id や created_at は不要）
+class PostCreate(PostBase):
     pass
 
-# ThreadResponse(ThreadBaseを継承)：一覧や詳細で返すデータ（id がある）
-class ThreadResponse(ThreadBase):
+# レスポンス用（id, created_at が追加）
+class PostResponse(PostBase):
     id: int
-    created_at:datetime
+    thread_id: int
+    post_number: int
+    created_at: str
+    
+    
